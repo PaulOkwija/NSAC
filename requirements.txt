@@ -1,0 +1,8 @@
+numpy
+pandas
+PyPDF
+gensim
+pdfminer
+spacy
+flashtext
+plotly

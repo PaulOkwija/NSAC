@@ -8,7 +8,6 @@ from pdfminer.pdfinterp import PDFResourceManager
 from pdfminer.pdfinterp import PDFPageInterpreter
 from pdfminer.layout import LAParams
 from pdfminer.converter import PDFPageAggregator
-from tika import parser
 from flashtext import KeywordProcessor
 
 KEY_PRO = KeywordProcessor(case_sensitive=False)

@@ -6,3 +6,4 @@ pdfminer
 spacy
 flashtext
 plotly
+nltk

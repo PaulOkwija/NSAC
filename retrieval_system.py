@@ -13,7 +13,8 @@ from gensim import similarities
 def search_docs(query, lsi, dictionary, corpus):
     vec_bow = dictionary.doc2bow(query.lower().split())
     vec_lsi = lsi[vec_bow]  # convert the query to LSI space
-        
+    vec_lsi = sorted(vec_lsi, key=lambda i: i[-1], reverse=True)
+    print("\nvec_lsi\n", vec_lsi)
     index = similarities.MatrixSimilarity(lsi[corpus])  # transform corpus to LSI space and index it
 
     # index.save('/tmp/deerwester.index')
@@ -24,4 +25,4 @@ def search_docs(query, lsi, dictionary, corpus):
 
     sims = sorted(enumerate(sims), key=lambda item: -item[1])
     
-    return sims
+    return sims, vec_lsi

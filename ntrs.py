@@ -20,7 +20,7 @@ st.set_page_config(
 st.markdown("""
         <style>
                .css-18e3th9 {
-                    padding-top: 0rem;
+                    padding-top: 2rem;
                     padding-bottom: 10rem;
                     padding-left: 5rem;
                     padding-right: 5rem;
@@ -34,6 +34,7 @@ st.markdown("""
         </style>
         """, unsafe_allow_html=True)       
 
+st.markdown("<h3 style='text-align: left;'><strong>NASA Space Apps Challenge 2022 - </strong>Can AI Preserve our science legacy?</h1>", unsafe_allow_html=True)
 st.markdown("<h1 style='text-align: center;'>NTRS Document Retrieval System</h1>", unsafe_allow_html=True)
 
 st.write("Welcome to the NASA Technical Reports Server (NTRS) Document Retrieval System.")
@@ -220,7 +221,13 @@ with open('document_dictionary.pickle', 'rb') as handle:
 if srch_button or query:
     st.write("Search Results")
     # st.write("Document:          Score")
-    sims = search_docs(query, lsi, dictionary, corpus)
+    sims,topics = search_docs(query, lsi, dictionary, corpus)
+    
+
+    top_topics = []
+    for topic in topics[:3]:
+        top_topics.append(round(topic[0]))
+
     for sim in sims[:5]:
         doc = doc_tracker[sim[0]]
         print("\ndoc: ", doc)
@@ -228,12 +235,24 @@ if srch_button or query:
         score = round(sim[1],3)
         title_n_abstract = get_ttle_n_abs(doc)
         display_doc(title_n_abstract, score)
-        st.subheader("Keywords")
-        for keyword in document_dictionary[doc]['analytics']:
-            st.write(keyword[0])
+        keywords = document_dictionary[doc]['analytics']
+        keywords = [keyword[0] for keyword in keywords]
+        keywords = ', '.join(keywords)
+        
+        col1,col2 = st.columns(2)
+        with col1:
+            html_str = f"""
+                    <p><strong>Keywords: </strong>{keywords}</p>
+                    """
+            st.markdown(html_str, unsafe_allow_html=True)
 
-        st.subheader("Topics")
-        # pdf_display = F'<iframe src="data:application/pdf;base64,{base64_pdf}" width="700" height="1000" type="application/pdf"></iframe>'
+        with col2:
+            html_str = f"""
+                    <p><strong>Topics: </strong>{top_topics}</p>
+                    """
+            st.markdown(html_str, unsafe_allow_html=True)
+
+    # pdf_display = F'<iframe src="data:application/pdf;base64,{base64_pdf}" width="700" height="1000" type="application/pdf"></iframe>'
 
 
     # st.write("Searched for: " + query)
@@ -245,3 +264,5 @@ if srch_button or query:
 
     # display_doc(title_n_abstract)
     
+
+st.markdown("<hr><p style='text-align:center; margin-top:3em;'>NTRS Document Retrieval System <br>Created by: <i color:#021691>256_Datanauts</i></p>", unsafe_allow_html=True)

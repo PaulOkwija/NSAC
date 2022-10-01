@@ -22,9 +22,9 @@ def get_analytics(filename, databaset_folder):
 	#Remove Stopwords and Punctuations
 	punctuation = ['(',')',';',':','[',']',',']
 	stop_words = stopwords.words('english')
-	custom_stop_words = ['et', 'al']
+	custom_stop_words = ['et', 'al', 'http', 'j']
 	stop_words.extend(custom_stop_words)
-	
+
 	keywords = [word for word in tokens if not word in stop_words and  not word in punctuation and word.isalpha()]
 	print("keywords: ", keywords)
 	fqdist = FreqDist(keywords)

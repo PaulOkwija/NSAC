@@ -179,16 +179,10 @@ def get_ttle_n_abs(doc_id, dataset_folder='database'):
 
 def display_doc(doc, score):
     '''This function displays the document title, summary and keywords in the web app.'''
-    title_n_abstract = get_ttle_n_abs(doc)
-    # analytics = get_analytics(doc, dataset_folder)
-    # print(analytics)
-    st.subheader(title_n_abstract['title'])
+    st.header(doc['title'])
     st.write(score)
-    # st.wrtie(analytics)
-    st.write(title_n_abstract['abstract'])
-
-    # for doc_position, doc_score in sims:
-    #     print(doc_score, documents[doc_position][:100])
+    st.subheader('Abstract')
+    st.write(doc['abstract'])
 
     return None
 
@@ -232,8 +226,13 @@ if srch_button or query:
         print("\ndoc: ", doc)
         print(document_dictionary[doc]['analytics'])
         score = round(sim[1],3)
-        # display_doc(title_n_abstract, score)
-        display_doc(doc, score)
+        title_n_abstract = get_ttle_n_abs(doc)
+        display_doc(title_n_abstract, score)
+        st.subheader("keywords")
+        for keyword in document_dictionary[doc]['analytics']:
+            st.write(keyword[0])
+
+        st.subheader("Topics")
         # pdf_display = F'<iframe src="data:application/pdf;base64,{base64_pdf}" width="700" height="1000" type="application/pdf"></iframe>'
 
 

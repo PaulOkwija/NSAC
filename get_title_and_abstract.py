@@ -74,4 +74,7 @@ def journal_abs(text_data):
         abs_content = abstract_lst[0]
         pdf_abs = abs_content.replace('ABSTRACT:', '')
     
+    pdf_abs = pdf_abs.replace('Abstract', '')
+    pdf_abs = pdf_abs.replace('ABSTRACT:', '')
+    
     return pdf_abs

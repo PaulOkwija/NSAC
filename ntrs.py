@@ -228,7 +228,7 @@ if srch_button or query:
         score = round(sim[1],3)
         title_n_abstract = get_ttle_n_abs(doc)
         display_doc(title_n_abstract, score)
-        st.subheader("keywords")
+        st.subheader("Keywords")
         for keyword in document_dictionary[doc]['analytics']:
             st.write(keyword[0])
 

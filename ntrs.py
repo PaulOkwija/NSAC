@@ -197,7 +197,6 @@ srch_button = st.button("Search")
 update_corpus = st.button("Update corpus")
 
 if update_corpus:
-    st.legacy_caching.clear_cache()
     docs = get_docs(dataset_folder)
     texts = clean_docs(docs)
 

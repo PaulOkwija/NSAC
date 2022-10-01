@@ -177,7 +177,7 @@ lsi, dictionary, corpus = create_model(texts, num_topics=num_topics)
 # st.write(docs)
 # st.write(texts)
 
-if srch_button:
+if srch_button or query:
     st.write("Search Results")
     # st.write("Document:          Score")
     sims = search_docs(query, lsi, dictionary, corpus)

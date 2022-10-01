@@ -87,7 +87,10 @@ def get_docs(database_folder):
             content = ''
             for page in f.pages:
                 content = content + ' ' + page.extractText()
-        docs_dict[file] = {'content':content}
+        
+        analytics = get_analytics(filename, database_folder)
+        print("\n analytics\n", analytics)
+        docs_dict[file] = {'content':content, 'analytics':analytics}
 
     return docs_dict
 
@@ -198,6 +201,9 @@ update_corpus = st.button("Update corpus")
 
 if update_corpus:
     docs = get_docs(dataset_folder)
+    with open('document_dictionary.pickle', 'wb') as handle:
+        pickle.dump(docs, handle)
+    
     texts = clean_docs(docs)
 
     num_topics = 5
@@ -207,10 +213,13 @@ if update_corpus:
 lsi = models.LsiModel.load("lsi.model")
 corpus = list(np.load('corpus.npy', allow_pickle=True))
 with open('dictionary.pickle', 'rb') as handle:
-        dictionary = pickle.load(handle)
+    dictionary = pickle.load(handle)
 
 
 doc_tracker = list(np.load('document_tracker.npy', allow_pickle=True))
+with open('document_dictionary.pickle', 'rb') as handle:
+    document_dictionary = pickle.load(handle)
+
 # st.write(docs)
 # st.write(texts)
 
@@ -220,6 +229,8 @@ if srch_button or query:
     sims = search_docs(query, lsi, dictionary, corpus)
     for sim in sims[:5]:
         doc = doc_tracker[sim[0]]
+        print("\ndoc: ", doc)
+        print(document_dictionary[doc]['analytics'])
         score = round(sim[1],3)
         # display_doc(title_n_abstract, score)
         display_doc(doc, score)

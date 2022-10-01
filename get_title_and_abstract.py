@@ -68,7 +68,7 @@ def get_abstract(textdata):
 def journal_abs(text_data):
     """get abstract from pdf"""
     pdf_abs = get_abstract(text_data)
-    print('pdf_abs: ', pdf_abs)
+    # print('pdf_abs: ', pdf_abs)
     if "KEYWORDS:" in pdf_abs:
         abstract_lst = pdf_abs.split("KEYWORDS:")
         abs_content = abstract_lst[0]

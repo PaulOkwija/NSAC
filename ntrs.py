@@ -6,7 +6,7 @@ Created on Tue Jul 26 12:59:38 2022
 """
 #%%
 import streamlit as st  # 🎈 data web app development
-from streamlit import caching
+# from streamlit import caching
 
 st.set_page_config(
     page_title="NTRS Document Retrieval System",

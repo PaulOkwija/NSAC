@@ -189,6 +189,29 @@ def display_doc(doc, score):
 
 
 dataset_folder = 'database'
+subject_categories = ['Nuclear Physics',
+                    'Optics',
+                    'Electronics and Electrical Engineering',
+                    'Structural Mechanics',
+                    'Geophysics',
+                    'Energy Production and Conversion']
+
+
+col1, col2, col3, col4, col5, col6 = st.columns(6)
+with col1:
+    st.checkbox('Nuclear Physics')
+with col2:
+    st.checkbox('Optics')
+with col3:
+    st.checkbox('Electronics and Electrical Engineering')
+with col4:
+    st.checkbox('Structural Mechanics')
+with col5:
+    st.checkbox('Geophysics')
+with col6:
+    st.checkbox('Energy Production and Conversion')
+
+
 
 query = st.text_input("Please enter your search here... 👇")
 srch_button = st.button("Search")

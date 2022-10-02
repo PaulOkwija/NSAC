@@ -55,6 +55,10 @@ with col5:
 with col6:
     energy_prod_conv = st.checkbox('Energy Production and Conversion')
 
+
+html_str = f"""<hr>"""
+# st.markdown(html_str, unsafe_allow_html=True)
+
 query = st.text_input("Please enter your search here... 👇")
 srch_button = st.button("Search")
 # update_corpus = st.button("Update corpus")
@@ -203,7 +207,7 @@ def get_ttle_n_abs(doc_id, dataset_folder='database'):
 def display_doc(doc, score):
     '''This function displays the document title, summary and keywords in the web app.'''
     st.header(doc['title'])
-    st.write(score)
+    # st.write(score)
     st.subheader('Abstract')
     st.write(doc['abstract'])
 

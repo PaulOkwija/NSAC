@@ -227,26 +227,6 @@ subject_categories = ['Nuclear Physics',
 selected_topics = [nuclear_physics, optics, eee, struc_mech,geophysics,energy_prod_conv]
 selected_topics = list(compress(subject_categories, selected_topics))
 corpus_folder = 'corpus'
-if len(selected_topics) > 0:
-    file_ids = os.listdir(corpus_folder)
-    file_ids = set(map(lambda x: x.split('.')[0], file_ids))
-    for file in file_ids:
-        filename = os.path.join(corpus_folder, file+'.json')
-        with open(filename) as f:
-            file_details = json.load(f)
-        
-        if file_details['subjectCategory'] in selected_topics:
-            st.write(file_details)
-            try:
-                st.header(file_details['title'])
-                st.subheader('Abstract')
-                st.write(file_details['abstract'])
-                html_str = f"""
-                        <p><strong>Keywords: </strong>{file_details['keywords']}</p>
-                        """
-                st.markdown(html_str, unsafe_allow_html=True)
-            except:
-                pass
 
 
 # if update_corpus:
@@ -277,11 +257,6 @@ if srch_button or query:
     st.write("Search Results")
     # st.write("Document:          Score")
     sims,topics = search_docs(query, lsi, dictionary, corpus)
-    
-
-    top_topics = []
-    for topic in topics[:3]:
-        top_topics.append(round(topic[0]))
 
     for sim in sims[:5]:
         doc = doc_tracker[sim[0]]
@@ -319,5 +294,27 @@ if srch_button or query:
 
     # display_doc(title_n_abstract)
     
+
+if len(selected_topics) > 0:
+    file_ids = os.listdir(corpus_folder)
+    file_ids = set(map(lambda x: x.split('.')[0], file_ids))
+    for file in file_ids:
+        filename = os.path.join(corpus_folder, file+'.json')
+        with open(filename) as f:
+            file_details = json.load(f)
+        
+        if file_details['subjectCategory'] in selected_topics:
+            st.write(file_details)
+            try:
+                st.header(file_details['title'])
+                st.subheader('Abstract')
+                st.write(file_details['abstract'])
+                html_str = f"""
+                        <p><strong>Keywords: </strong>{file_details['keywords']}</p>
+                        """
+                st.markdown(html_str, unsafe_allow_html=True)
+            except:
+                pass
+
 
 st.markdown("<hr><p style='text-align:center; margin-top:3em;'>NTRS Document Retrieval System <br>Created by: <i color:#021691>256_Datanauts</i></p>", unsafe_allow_html=True)

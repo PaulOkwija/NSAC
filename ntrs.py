@@ -41,6 +41,25 @@ st.write("Welcome to the NASA Technical Reports Server (NTRS) Document Retrieval
 
 
 
+col1, col2, col3, col4, col5, col6 = st.columns(6)
+with col1:
+    nuclear_physics = st.checkbox('Nuclear Physics')
+with col2:
+    optics = st.checkbox('Optics')
+with col3:
+    eee = st.checkbox('Electronics and Electrical Engineering')
+with col4:
+    struc_mech = st.checkbox('Structural Mechanics')
+with col5:
+    geophysics = st.checkbox('Geophysics')
+with col6:
+    energy_prod_conv = st.checkbox('Energy Production and Conversion')
+
+query = st.text_input("Please enter your search here... 👇")
+srch_button = st.button("Search")
+update_corpus = st.button("Update corpus")
+
+
 import os
 import json
 import PyPDF2
@@ -200,20 +219,6 @@ subject_categories = ['Nuclear Physics',
                     'Energy Production and Conversion']
 
 
-col1, col2, col3, col4, col5, col6 = st.columns(6)
-with col1:
-    nuclear_physics = st.checkbox('Nuclear Physics')
-with col2:
-    optics = st.checkbox('Optics')
-with col3:
-    eee = st.checkbox('Electronics and Electrical Engineering')
-with col4:
-    struc_mech = st.checkbox('Structural Mechanics')
-with col5:
-    geophysics = st.checkbox('Geophysics')
-with col6:
-    energy_prod_conv = st.checkbox('Energy Production and Conversion')
-
 
 selected_topics = [nuclear_physics, optics, eee, struc_mech,geophysics,energy_prod_conv]
 selected_topics = list(compress(subject_categories, selected_topics))
@@ -227,7 +232,7 @@ if len(selected_topics) > 0:
             file_details = json.load(f)
         
         if file_details['subjectCategory'] in selected_topics:
-            st.write(file_details)
+            # st.write(file_details)
             try:
                 st.header(file_details['title'])
                 st.subheader('Abstract')
@@ -239,10 +244,6 @@ if len(selected_topics) > 0:
             except:
                 pass
 
-
-query = st.text_input("Please enter your search here... 👇")
-srch_button = st.button("Search")
-update_corpus = st.button("Update corpus")
 
 if update_corpus:
     docs = get_docs(dataset_folder)

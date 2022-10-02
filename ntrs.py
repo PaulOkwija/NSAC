@@ -236,7 +236,7 @@ if len(selected_topics) > 0:
             file_details = json.load(f)
         
         if file_details['subjectCategory'] in selected_topics:
-            # st.write(file_details)
+            st.write(file_details)
             try:
                 st.header(file_details['title'])
                 st.subheader('Abstract')

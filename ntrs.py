@@ -278,6 +278,8 @@ if srch_button or query:
 
         # st.write(score)
 
+        # keyword_count = get_analytics(filename.replace('.json', '.pdf'), keywords)
+        # st.write(keyword_count)
         keywords = [keyword for keyword in keywords]
         keywords = ', '.join(keywords)
 

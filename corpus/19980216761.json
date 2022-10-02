@@ -1,6 +1,0 @@
-{
-    "id": 19980216761,
-    "subjectCategory": "Optics",
-    "abstract": "Three dimensional surface measurements of large objects arc required in a variety of industrial processes. The nature of these measurements is changing as optical instruments arc beginning to replace conventional contact probes scanned over the objects. A common characteristic of the optical surface profilers is the trade off between measurement accuracy and field of view. In order to measure a large object with high accuracy, multiple views arc required. An accurate transformation between the different views is needed to bring about their registration. In this paper, we demonstrate how the transformation parameters can be obtained precisely by choosing control points which lie in the overlapping regions of the images. A good starting point for the transformation parameters is obtained by having a knowledge of the scanner position. The selection of the control points arc independent of the object geometry. By successively recording multiple views and obtaining transformation with respect to a single coordinate system, a complete physical model of an object can be obtained. Since all data arc in the same coordinate system, it can thus be used for building automatic models for free form surfaces.",
-    "title": "Image Tiling for Profiling Large Objects"
-}

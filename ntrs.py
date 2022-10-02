@@ -57,7 +57,7 @@ with col6:
 
 
 html_str = f"""<hr>"""
-# st.markdown(html_str, unsafe_allow_html=True)
+st.markdown(html_str, unsafe_allow_html=True)
 
 query = st.text_input("Please enter your search here... 👇")
 srch_button = st.button("Search")

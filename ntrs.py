@@ -297,11 +297,11 @@ if srch_button or query:
                     """
             st.markdown(html_str, unsafe_allow_html=True)
 
-        with col2:
-            html_str = f"""
-                    <p><strong>Topics: </strong>{top_topics}</p>
-                    """
-            st.markdown(html_str, unsafe_allow_html=True)
+        # with col2:
+        #     html_str = f"""
+        #             <p><strong>Topics: </strong>{top_topics}</p>
+        #             """
+        #     st.markdown(html_str, unsafe_allow_html=True)
 
     # pdf_display = F'<iframe src="data:application/pdf;base64,{base64_pdf}" width="700" height="1000" type="application/pdf"></iframe>'
 

@@ -61,7 +61,7 @@ html_str = f"""<hr>"""
 
 query = st.text_input("Please enter your search here... 👇")
 srch_button = st.button("Search")
-update_corpus = st.button("Update corpus")
+# update_corpus = st.button("Update corpus")
 
 
 import os
@@ -225,15 +225,15 @@ selected_topics = list(compress(subject_categories, selected_topics))
 corpus_folder = 'corpus'
 
 
-if update_corpus:
-    docs = get_docs(dataset_folder)
-    with open('document_dictionary.pickle', 'wb') as handle:
-        pickle.dump(docs, handle)
+# if update_corpus:
+#     docs = get_docs(dataset_folder)
+#     with open('document_dictionary.pickle', 'wb') as handle:
+#         pickle.dump(docs, handle)
     
-    texts = clean_docs(docs)
+#     texts = clean_docs(docs)
 
-    num_topics = 5
-    create_model(texts, num_topics=num_topics)
+#     num_topics = 5
+#     create_model(texts, num_topics=num_topics)
 
 
 lsi = models.LsiModel.load("lsi.model")

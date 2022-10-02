@@ -4,7 +4,6 @@ import PyPDF2
 from nltk.corpus import stopwords
 from nltk.probability import FreqDist
 from nltk.stem import WordNetLemmatizer
-from pattern.text.en import singularize
 from nltk.tokenize import word_tokenize, sent_tokenize
 
 def get_analytics(filename, keywords):
@@ -16,7 +15,6 @@ def get_analytics(filename, keywords):
 	
 	word_count = {}
 	for word in keywords:
-		word = singularize(word)
 		print("\n")
 		print(word)
 		print('\n')

@@ -259,7 +259,6 @@ if srch_button or query:
         print("\ndoc: ", doc)
         # print(document_dictionary[doc]['analytics'])
         score = round(sim[1],3)
-        st.write(score)
 
         filename = os.path.join(corpus_folder, str(doc)+'.json')
         with open(filename) as f:
@@ -268,10 +267,16 @@ if srch_button or query:
         title = file_details['title']
         abstract = file_details['abstract']
         subj_cat = file_details['subjectCategory']
+
+        if len(selected_topics)>0 and subj_cat not in selected_topics:
+            continue
+
         try:
             keywords = file_details['keywords']
         except:
             continue
+
+        # st.write(score)
 
         keywords = [keyword for keyword in keywords]
         keywords = ', '.join(keywords)
@@ -316,13 +321,21 @@ if len(selected_topics) > 0:
             file_details = json.load(f)
         
         if file_details['subjectCategory'] in selected_topics:
-            st.write(file_details)
+            # st.write(file_details)
             try:
+                keywords = file_details['keywords']
+                keywords = [keyword for keyword in keywords]
+                keywords = ', '.join(keywords)
                 st.header(file_details['title'])
                 st.subheader('Abstract')
                 st.write(file_details['abstract'])
                 html_str = f"""
-                        <p><strong>Keywords: </strong>{file_details['keywords']}</p>
+                        <p><strong>Keywords: </strong>{keywords}</p>
+                        """
+                st.markdown(html_str, unsafe_allow_html=True)
+
+                html_str = f"""
+                        <p><strong>Subject Category: </strong>{file_details['subjectCategory']}</p>
                         """
                 st.markdown(html_str, unsafe_allow_html=True)
             except:

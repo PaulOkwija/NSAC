@@ -1,0 +1,6 @@
+{
+    "id": 20080004417,
+    "subjectCategory": "Optics",
+    "abstract": "Young's fringes are produced from a double exposure image of particles in a flowing fluid by passing laser light through the film and projecting the light onto a screen. A video camera receives the image from the screen and controls a spatial light modulator. The spatial modulator has a two dimensional array of cells the transmissiveness of which are controlled in relation to the brightness of the corresponding pixel of the video camera image of the screen. A collimated beam of laser light is passed through the spatial light modulator to produce a diffraction pattern which is focused onto another video camera, with the output of the camera being digitized and provided to a microcomputer. The diffraction pattern formed when the laser light is passed through the spatial light modulator and is focused to a point corresponds to the two dimensional Fourier transform of the Young's fringe pattern projected onto the screen. The data obtained fro This invention was made with U.S. Government support awarded by the Department of the Army (DOD) and NASA grand number(s): DOD #DAAL03-86-K0174 and NASA #NAG3-718. The U.S. Government has certain rights in this invention.",
+    "title": "Optical correlator method and apparatus for particle image velocimetry processing"
+}

@@ -42,6 +42,7 @@ st.write("Welcome to the NASA Technical Reports Server (NTRS) Document Retrieval
 
 
 import os
+import json
 import PyPDF2
 import pickle
 import numpy as np  # np mean, np random
@@ -53,8 +54,10 @@ from PyPDF2 import PdfReader
 import nltk
 from nltk.probability import FreqDist
 
+
 from gensim import models
 from gensim import corpora
+from itertools import compress
 from gensim import similarities
 from collections import defaultdict
 
@@ -199,18 +202,42 @@ subject_categories = ['Nuclear Physics',
 
 col1, col2, col3, col4, col5, col6 = st.columns(6)
 with col1:
-    st.checkbox('Nuclear Physics')
+    nuclear_physics = st.checkbox('Nuclear Physics')
 with col2:
-    st.checkbox('Optics')
+    optics = st.checkbox('Optics')
 with col3:
-    st.checkbox('Electronics and Electrical Engineering')
+    eee = st.checkbox('Electronics and Electrical Engineering')
 with col4:
-    st.checkbox('Structural Mechanics')
+    struc_mech = st.checkbox('Structural Mechanics')
 with col5:
-    st.checkbox('Geophysics')
+    geophysics = st.checkbox('Geophysics')
 with col6:
-    st.checkbox('Energy Production and Conversion')
+    energy_prod_conv = st.checkbox('Energy Production and Conversion')
 
+
+selected_topics = [nuclear_physics, optics, eee, struc_mech,geophysics,energy_prod_conv]
+selected_topics = list(compress(subject_categories, selected_topics))
+corpus_folder = 'corpus'
+if len(selected_topics) > 0:
+    file_ids = os.listdir(corpus_folder)
+    file_ids = set(map(lambda x: x.split('.')[0], file_ids))
+    for file in file_ids:
+        filename = os.path.join(corpus_folder, file+'.json')
+        with open(filename) as f:
+            file_details = json.load(f)
+        
+        if file_details['subjectCategory'] in selected_topics:
+            st.write(file_details)
+            try:
+                st.header(file_details['title'])
+                st.subheader('Abstract')
+                st.write(file_details['abstract'])
+                html_str = f"""
+                        <p><strong>Keywords: </strong>{file_details['keywords']}</p>
+                        """
+                st.markdown(html_str, unsafe_allow_html=True)
+            except:
+                pass
 
 
 query = st.text_input("Please enter your search here... 👇")

@@ -61,7 +61,7 @@ html_str = f"""<hr>"""
 
 query = st.text_input("Please enter your search here... 👇")
 srch_button = st.button("Search")
-# update_corpus = st.button("Update corpus")
+update_corpus = st.button("Update corpus")
 
 
 import os
@@ -103,21 +103,23 @@ def get_nltk_resources():
 get_nltk_resources()
 
 @st.cache
-def get_docs(database_folder):
-    files = os.listdir(database_folder)
+def get_docs(dataset_folder):
+    files = os.listdir(dataset_folder)
+    files = set(list(map(lambda x: x.split('.')[0], files)))
     docs_dict = dict()
 
     for file in files:
-        filename = os.path.join(database_folder, file)
+        filename = os.path.join(dataset_folder, file+'.pdf')
         with open(filename,'rb') as f:
             f = PyPDF2.PdfFileReader(f)
             content = ''
             for page in f.pages:
                 content = content + ' ' + page.extractText()
         
-        analytics = get_analytics(filename, database_folder)
-        print("\n analytics\n", analytics)
-        docs_dict[file] = {'content':content, 'analytics':analytics}
+        # analytics = get_analytics(filename, database_folder)
+        # print("\n analytics\n", analytics)
+        # docs_dict[file] = {'content':content, 'analytics':analytics}
+        docs_dict[file] = {'content':content}
 
     return docs_dict
 
@@ -164,9 +166,9 @@ def create_model(texts, num_topics=5):
     return
 
 
-def read_pdfs(n):
+def read_pdfs(n, doc_folder):
     ''' This function reads a document given it's id.'''
-    doc_folder = 'database'
+    doc_folder
     for i in range(n):
         doc_name = 'paper_'+str(i)+'.pdf'
         st.subheader(doc_name)
@@ -182,8 +184,8 @@ def read_pdfs(n):
         # print(document)
         
 
-def get_title(doc_id, dataset_folder='database'):
-    paper_path = os.path.join('database', doc_id)
+def get_title(doc_id, dataset_folder):
+    paper_path = os.path.join(dataset_folder, doc_id)
     reader = PdfReader(paper_path)
     page = reader.pages[0]
     text = page.extract_text()
@@ -193,28 +195,22 @@ def get_title(doc_id, dataset_folder='database'):
     return title
 
 
-def get_ttle_n_abs(doc_id, dataset_folder='database'):
-    pdf_file = os.path.join(dataset_folder, doc_id)
-    # print("Pdf file: ", pdf_file)
-    pdf_minr = get_text(pdf_file)
-    abstract = journal_abs(pdf_minr)
-    # print("Abstract:::", abstract)
-    title = get_title(doc_id)
-    # print("Title:::", title)
+def get_ttle_n_abs(doc_id, dataset_folder):
+    
     return {'title': title, 'abstract':abstract}
 
 
-def display_doc(doc, score):
+def display_doc(title, abstract, score):
     '''This function displays the document title, summary and keywords in the web app.'''
-    st.header(doc['title'])
+    st.header(title)
     # st.write(score)
     st.subheader('Abstract')
-    st.write(doc['abstract'])
+    st.write(abstract)
 
     return None
 
 
-dataset_folder = 'database'
+dataset_folder = 'corpus'
 subject_categories = ['Nuclear Physics',
                     'Optics',
                     'Electronics and Electrical Engineering',
@@ -229,15 +225,15 @@ selected_topics = list(compress(subject_categories, selected_topics))
 corpus_folder = 'corpus'
 
 
-# if update_corpus:
-#     docs = get_docs(dataset_folder)
-#     with open('document_dictionary.pickle', 'wb') as handle:
-#         pickle.dump(docs, handle)
+if update_corpus:
+    docs = get_docs(dataset_folder)
+    with open('document_dictionary.pickle', 'wb') as handle:
+        pickle.dump(docs, handle)
     
-#     texts = clean_docs(docs)
+    texts = clean_docs(docs)
 
-#     num_topics = 5
-#     create_model(texts, num_topics=num_topics)
+    num_topics = 5
+    create_model(texts, num_topics=num_topics)
 
 
 lsi = models.LsiModel.load("lsi.model")
@@ -261,20 +257,36 @@ if srch_button or query:
     for sim in sims[:5]:
         doc = doc_tracker[sim[0]]
         print("\ndoc: ", doc)
-        print(document_dictionary[doc]['analytics'])
+        # print(document_dictionary[doc]['analytics'])
         score = round(sim[1],3)
-        title_n_abstract = get_ttle_n_abs(doc)
-        display_doc(title_n_abstract, score)
-        keywords = document_dictionary[doc]['analytics']
-        keywords = [keyword[0] for keyword in keywords]
+        st.write(score)
+
+        filename = os.path.join(corpus_folder, str(doc)+'.json')
+        with open(filename) as f:
+            file_details = json.load(f)
+
+        title = file_details['title']
+        abstract = file_details['abstract']
+        subj_cat = file_details['subjectCategory']
+        try:
+            keywords = file_details['keywords']
+        except:
+            continue
+
+        keywords = [keyword for keyword in keywords]
         keywords = ', '.join(keywords)
+
+        display_doc(title, abstract, score)
         
-        col1,col2 = st.columns(2)
-        with col1:
-            html_str = f"""
-                    <p><strong>Keywords: </strong>{keywords}</p>
-                    """
-            st.markdown(html_str, unsafe_allow_html=True)
+        html_str = f"""
+                <p><strong>Keywords: </strong>{keywords}</p>
+                """
+        st.markdown(html_str, unsafe_allow_html=True)
+
+        html_str = f"""
+                <p><strong>Subject category: </strong>{subj_cat}</p>
+                """
+        st.markdown(html_str, unsafe_allow_html=True)
 
         # with col2:
         #     html_str = f"""
